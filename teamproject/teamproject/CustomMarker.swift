@@ -13,6 +13,14 @@ class CustomMarker {
     
     let mapView: GMSMapView
     
+    var markerDictionary = [String: [Any]]()
+    /*
+     * markerDictionary = {
+     *  "person": [circle1, circle2, ...]
+     *  "river": [path1, path2, ...]
+     * }
+     */
+    
     init(mapView: GMSMapView) {
         self.mapView = mapView
     }
@@ -31,7 +39,7 @@ class CustomMarker {
         return marker;
     }
     
-    func addCircle(latitude: CLLocationDegrees, longitude: CLLocationDegrees, radius: CLLocationDistance, fillColor: UIColor, strokeColor: UIColor, strokeWidth: CGFloat) -> GMSCircle {
+    func addCircle(latitude: CLLocationDegrees, longitude: CLLocationDegrees, radius: CLLocationDistance, fillColor: UIColor, strokeColor: UIColor, strokeWidth: CGFloat, category: String) -> GMSCircle {
         
         let circleCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let circ = GMSCircle(position: circleCenter, radius: radius)
@@ -40,15 +48,17 @@ class CustomMarker {
         circ.strokeWidth = strokeWidth
         circ.map = mapView
         
+        append(key: category, wantToAdd: circ)
+        	
         return circ
     }
     
-    func addCircle(latitude: CLLocationDegrees, longitude: CLLocationDegrees, radius: CLLocationDistance, fillColor: String, strokeColor: String, strokeWidth: CGFloat) -> GMSCircle {
+    func addCircle(latitude: CLLocationDegrees, longitude: CLLocationDegrees, radius: CLLocationDistance, fillColor: String, strokeColor: String, strokeWidth: CGFloat, category: String) -> GMSCircle {
         
-        return addCircle(latitude: latitude, longitude: longitude, radius: radius, fillColor: str2UIColor(color: fillColor), strokeColor: str2UIColor(color: strokeColor), strokeWidth: strokeWidth)
+        return addCircle(latitude: latitude, longitude: longitude, radius: radius, fillColor: str2UIColor(fillColor), strokeColor: str2UIColor(strokeColor), strokeWidth: strokeWidth, category: category)
     }
     
-    func str2UIColor(color: String) -> UIColor {
+    func str2UIColor(_ color: String) -> UIColor {
         
         switch color {
         case "red":
@@ -71,6 +81,23 @@ class CustomMarker {
             return UIColor.white
         default:
             return UIColor.red
+        }
+    }
+    
+    //markerDictionary = {"a": [1]} -> append("a", 2); append("b", "hi") -> markerDictionary = {"a": [1, 2], "b": "hi"}
+    func append(key: String, wantToAdd: Any) {
+        var arr = markerDictionary[key] as? Array<Any> ?? [Any]()
+        arr.append(wantToAdd)
+        
+        markerDictionary.updateValue(arr, forKey: key)
+        
+        print(markerDictionary)
+    }
+    
+    func hideMarkerByCategory(category: String) {
+        var arr = markerDictionary[category] as! Array<GMSOverlay>
+        for overlay in arr {
+            overlay.map = nil
         }
     }
     

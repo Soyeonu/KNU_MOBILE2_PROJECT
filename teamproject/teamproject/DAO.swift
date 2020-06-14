@@ -16,12 +16,12 @@ class DAO {
     static let markers = ref.child("markers")
     
     //kind = marker, circle, line
-    func saveMarker(kind: String, latitude: Double, longitude: Double, radius: Double, fillColor: String, strokeColor: String, strokeWidth: Float) {
+    func saveMarker(kind: String, latitude: Double, longitude: Double, radius: Double, fillColor: String, strokeColor: String, strokeWidth: Float, category: String) {
         let chd = DAO.markers.child(String(arc4random()))
-        chd.setValue(["kind": kind, "latitude": latitude, "longitude": longitude, "radius": radius, "fillColor": fillColor, "strokeColor": strokeColor, "strokeWidth": strokeWidth])
+        chd.setValue(["kind": kind, "latitude": latitude, "longitude": longitude, "radius": radius, "fillColor": fillColor, "strokeColor": strokeColor, "strokeWidth": strokeWidth, "category": category])
     }
     
-    func loadMarkers(mapView: GMSMapView) {
+    func loadMarkers(mapView: GMSMapView, customMarker: CustomMarker) {
         DAO.markers.observeSingleEvent(of: .value, with: { (snapshot) in
             
             let snapshotValue = snapshot.value as? NSDictionary
@@ -38,10 +38,10 @@ class DAO {
                 let strokeColor = marker!["strokeColor"] as! String
                 let radius = marker!["radius"] as! CLLocationDistance
                 let strokeWidth = marker!["strokeWidth"] as! CGFloat
+                let category = marker!["category"] as! String
                 
-                let cm = CustomMarker(mapView: mapView)
                 if kind == "circle" {
-                    cm.addCircle(latitude: latitude, longitude: longitude, radius: radius, fillColor: fillColor, strokeColor: strokeColor, strokeWidth: strokeWidth)
+                    var circle = customMarker.addCircle(latitude: latitude, longitude: longitude, radius: radius, fillColor: fillColor, strokeColor: strokeColor, strokeWidth: strokeWidth, category: category)
                 } else if kind == "line" {
                     //....
                 }
