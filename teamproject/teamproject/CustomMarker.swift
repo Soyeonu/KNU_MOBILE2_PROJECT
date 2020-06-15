@@ -66,6 +66,8 @@ class CustomMarker {
         }
         
         let line = GMSPolyline(path: path)
+        line.strokeWidth = strokeWidth
+        line.strokeColor = strokeColor
         line.map = mapView
         
         append(category: category, wantToAdd: line)
