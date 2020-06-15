@@ -22,10 +22,11 @@ class ViewController: UIViewController {
         self.view.sendSubviewToBack(mapView)
         
         let dao = DAO()
-        dao.saveMarker(kind: "circle", latitude: 35.89, longitude: 128.61, radius: 100, fillColor: "red", strokeColor: "red", strokeWidth: 10.0, category: "person")
+//        dao.saveCircle(latitude: 35.89, longitude: 128.61, radius: 100, fillColor: "red", strokeColor: "red", strokeWidth: 10.0, category: "person")
+        dao.savePath(latitude: [35.892382, 35.891287, 35.887802, 35.885689], longitude: [128.609356, 128.610074, 128.609120, 128.609055], strokeColor: "purple", strokeWidth: 5, category: "river")
         
         customMarker = CustomMarker(mapView: mapView)
-        dao.loadMarkers(mapView: mapView, customMarker: customMarker!)
+        dao.loadOverlays(mapView: mapView, customMarker: customMarker!)
     }
     
     

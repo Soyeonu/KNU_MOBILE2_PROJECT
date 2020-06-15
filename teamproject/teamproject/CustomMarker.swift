@@ -48,7 +48,7 @@ class CustomMarker {
         circ.strokeWidth = strokeWidth
         circ.map = mapView
         
-        append(key: category, wantToAdd: circ)
+        append(category: category, wantToAdd: circ)
         	
         return circ
     }
@@ -56,6 +56,26 @@ class CustomMarker {
     func addCircle(latitude: CLLocationDegrees, longitude: CLLocationDegrees, radius: CLLocationDistance, fillColor: String, strokeColor: String, strokeWidth: CGFloat, category: String) -> GMSCircle {
         
         return addCircle(latitude: latitude, longitude: longitude, radius: radius, fillColor: str2UIColor(fillColor), strokeColor: str2UIColor(strokeColor), strokeWidth: strokeWidth, category: category)
+    }
+    
+    func addLine(latitude: [CLLocationDegrees], longitude: [CLLocationDegrees], strokeColor: UIColor, strokeWidth: CGFloat, category: String) -> GMSPolyline {
+        
+        let path = GMSMutablePath()
+        for i in 0..<latitude.count {
+            path.add(CLLocationCoordinate2D(latitude: latitude[i], longitude: longitude[i]))
+        }
+        
+        let line = GMSPolyline(path: path)
+        line.map = mapView
+        
+        append(category: category, wantToAdd: line)
+        
+        return line
+    }
+    
+    func addLine(latitude: [CLLocationDegrees], longitude: [CLLocationDegrees], strokeColor: String, strokeWidth: CGFloat, category: String) -> GMSPolyline {
+        
+        return addLine(latitude: latitude, longitude: longitude, strokeColor: str2UIColor(strokeColor), strokeWidth: strokeWidth, category: category)
     }
     
     func str2UIColor(_ color: String) -> UIColor {
@@ -85,11 +105,11 @@ class CustomMarker {
     }
     
     //markerDictionary = {"a": [1]} -> append("a", 2); append("b", "hi") -> markerDictionary = {"a": [1, 2], "b": "hi"}
-    func append(key: String, wantToAdd: Any) {
-        var arr = markerDictionary[key] as? Array<Any> ?? [Any]()
+    func append(category: String, wantToAdd: Any) {
+        var arr = markerDictionary[category] as? Array<Any> ?? [Any]()
         arr.append(wantToAdd)
         
-        markerDictionary.updateValue(arr, forKey: key)
+        markerDictionary.updateValue(arr, forKey: category)
         
         print(markerDictionary)
     }
