@@ -80,6 +80,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    @IBOutlet weak var AlphaPercent: UILabel!
+    @IBAction func AlphaSlider(_ sender: UISlider) {
+        var value = sender.value
+        AlphaPercent.text = String(Int(value * 100))
+        customMarker?.setAlpha(CGFloat(value))
+    }
+    
+    //hide keyboard when touch background
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+          self.view.endEditing(true)
+    }
     
 }
 

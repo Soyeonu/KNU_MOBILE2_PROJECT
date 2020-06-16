@@ -145,4 +145,20 @@ class CustomMarker {
         return hiddenCategory[category] ?? false //deafult is false(not hidden)
     }
     
+    func setAlpha(_ alpha: CGFloat) {
+        let categories = Array(markerDictionary.values)
+        for markers in categories {
+            for m in markers {
+                if let m = m as? GMSCircle {
+                    //change to new alpha
+                    m.fillColor = m.fillColor?.withAlphaComponent(alpha)
+                    m.strokeColor = m.strokeColor?.withAlphaComponent(alpha)
+                } else if let m = m as? GMSPolyline {
+                    //change to new alpha (poly line has no fillColor)
+                    m.strokeColor = m.strokeColor.withAlphaComponent(alpha)
+                }
+            }
+        }
+    }
+    
 }

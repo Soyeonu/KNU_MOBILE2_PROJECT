@@ -175,6 +175,9 @@
                                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="jsA-gw-Efl">
                                                 <rect key="frame" x="32" y="312" width="231" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="AlphaSlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="kVu-Zd-HW1"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pc-vV-e1g">
                                                 <rect key="frame" x="269" y="316" width="29" height="21"/>
@@ -230,6 +233,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="AlphaPercent" destination="8pc-vV-e1g" id="bQR-4f-yeT"/>
                         <outlet property="OptionView" destination="Ufj-0C-K0j" id="dWe-gR-Yjd"/>
                     </connections>
                 </viewController>
