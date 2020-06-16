@@ -20,6 +20,7 @@ class CustomMarker {
      *  "river": [path1, path2, ...]
      * }
      */
+    var hiddenCategory = [String: Bool]() //false == hidden, true == shown
     
     init(mapView: GMSMapView) {
         self.mapView = mapView
@@ -46,7 +47,7 @@ class CustomMarker {
         circ.fillColor = fillColor
         circ.strokeColor = strokeColor
         circ.strokeWidth = strokeWidth
-        circ.map = mapView
+        circ.map = isHiddenCategory(category) ? nil : mapView
         
         append(category: category, wantToAdd: circ)
         	
@@ -68,7 +69,7 @@ class CustomMarker {
         let line = GMSPolyline(path: path)
         line.strokeWidth = strokeWidth
         line.strokeColor = strokeColor
-        line.map = mapView
+        line.map = isHiddenCategory(category) ? nil : mapView
         
         append(category: category, wantToAdd: line)
         
@@ -113,14 +114,35 @@ class CustomMarker {
         
         markerDictionary.updateValue(arr, forKey: category)
         
-        print(markerDictionary)
+//        print(markerDictionary)
     }
     
-    func hideMarkerByCategory(category: String) {
-        var arr = markerDictionary[category] as! Array<GMSOverlay>
-        for overlay in arr {
-            overlay.map = nil
+    func hideMarkerByCategory(_ category: String) {
+        if let arr = markerDictionary[category] as? Array<GMSOverlay> {
+            for overlay in arr {
+                overlay.map = nil
+            }
         }
+    }
+    
+    func showMarkerByCategory(_ category: String) {
+        if let arr = markerDictionary[category] as? Array<GMSOverlay> {
+            for overlay in arr {
+                overlay.map = mapView
+            }
+        }
+    }
+    
+    func addHiddenCategory(_ category: String) {
+        hiddenCategory[category] = true
+    }
+    
+    func removeHiddenCategory(_ category: String) {
+        hiddenCategory[category] = false
+    }
+    
+    func isHiddenCategory(_ category: String) -> Bool {
+        return hiddenCategory[category] ?? false //deafult is false(not hidden)
     }
     
 }

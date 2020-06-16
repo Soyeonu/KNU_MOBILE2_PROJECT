@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMaps
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var customMarker: CustomMarker? = nil
 
@@ -27,17 +27,59 @@ class ViewController: UIViewController {
         
         customMarker = CustomMarker(mapView: mapView)
         dao.loadOverlays(mapView: mapView, customMarker: customMarker!)
+        
+        
     }
     
+    @IBOutlet weak var OptionView: UIView!
     
-    @IBAction func TestButton(_ sender: Any) {
-        if let customMarker = customMarker {
-            customMarker.hideMarkerByCategory(category: "person")
+    @IBAction func FilterButton(_ sender: Any) {
+        OptionView.alpha = 1.0 //show option view
+    }
+    
+    @IBAction func OptionOKButton(_ sender: Any) {
+        OptionView.alpha = 0.0 //hide option view
+    }
+    
+    @IBAction func PeopleSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "people")
+    }
+    @IBAction func RiverSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "river")
+    }
+    @IBAction func GroundAnimalSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "ground_animal")
+    }
+    @IBAction func InsectSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "insect")
+    }
+    @IBAction func FireSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "fire")
+    }
+    @IBAction func EarthQuakeSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "earthquake")
+    }
+    @IBAction func RadiationSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "radiation")
+    }
+    @IBAction func AirSwitch(_ sender: UISwitch) {
+        optionSwitchHandler(sender: sender, category: "air")
+    }
+    
+    func optionSwitchHandler(sender: UISwitch, category: String) {
+        if sender.isOn {
+            if let customMarker = customMarker {
+                customMarker.removeHiddenCategory(category)
+                customMarker.showMarkerByCategory(category)
+            }
+        } else {
+            if let customMarker = customMarker {
+                customMarker.hideMarkerByCategory(category)
+                customMarker.addHiddenCategory(category)
+            }
         }
     }
     
-    	
-
-
+    
 }
 
