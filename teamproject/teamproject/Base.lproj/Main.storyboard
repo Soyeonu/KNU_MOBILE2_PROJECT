@@ -24,6 +24,20 @@
                                     <action selector="FilterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bjE-3Y-zj4"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PPZ-Ix-6jR">
+                                <rect key="frame" x="320" y="75" width="25" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="DevButtonHandler:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EXG-DW-xQz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="au1-va-jV0">
+                                <rect key="frame" x="350" y="75" width="25" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="DevButton2Handler:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2hx-Oz-CAV"/>
+                                </connections>
+                            </button>
                             <view alpha="0.0" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ufj-0C-K0j">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -222,8 +236,20 @@
                                                     <action selector="OptionOKButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="spw-Ag-Z5P"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I5R-tp-sXg">
+                                                <rect key="frame" x="138" y="26" width="61" height="36"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="OptionTitleButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="95c-hr-LpD"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.676056338028169" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -234,6 +260,8 @@
                     </view>
                     <connections>
                         <outlet property="AlphaPercent" destination="8pc-vV-e1g" id="bQR-4f-yeT"/>
+                        <outlet property="DevButton" destination="PPZ-Ix-6jR" id="jcW-We-yg4"/>
+                        <outlet property="DevButton2" destination="au1-va-jV0" id="2wy-GB-Wtr"/>
                         <outlet property="OptionView" destination="Ufj-0C-K0j" id="dWe-gR-Yjd"/>
                     </connections>
                 </viewController>

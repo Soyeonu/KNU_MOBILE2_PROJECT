@@ -13,6 +13,8 @@ class CustomMarker {
     
     let mapView: GMSMapView
     
+    static var markerAlpha:CGFloat = 1.0
+    
     var markerDictionary = [String: [Any]]()
     /*
      * markerDictionary = {
@@ -44,8 +46,8 @@ class CustomMarker {
         
         let circleCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let circ = GMSCircle(position: circleCenter, radius: radius)
-        circ.fillColor = fillColor
-        circ.strokeColor = strokeColor
+        circ.fillColor = fillColor.withAlphaComponent(CustomMarker.markerAlpha)
+        circ.strokeColor = strokeColor.withAlphaComponent(CustomMarker.markerAlpha)
         circ.strokeWidth = strokeWidth
         circ.map = isHiddenCategory(category) ? nil : mapView
         
@@ -68,7 +70,7 @@ class CustomMarker {
         
         let line = GMSPolyline(path: path)
         line.strokeWidth = strokeWidth
-        line.strokeColor = strokeColor
+        line.strokeColor = strokeColor.withAlphaComponent(CustomMarker.markerAlpha)
         line.map = isHiddenCategory(category) ? nil : mapView
         
         append(category: category, wantToAdd: line)
@@ -146,6 +148,8 @@ class CustomMarker {
     }
     
     func setAlpha(_ alpha: CGFloat) {
+        CustomMarker.markerAlpha = alpha
+        
         let categories = Array(markerDictionary.values)
         for markers in categories {
             for m in markers {

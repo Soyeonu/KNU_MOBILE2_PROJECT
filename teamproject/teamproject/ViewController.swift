@@ -9,9 +9,13 @@
 import UIKit
 import GoogleMaps
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate {
     
     var customMarker: CustomMarker? = nil
+    
+    static var devCount = 0
+    static var circleMode = false
+    static var lineMode = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +32,108 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         customMarker = CustomMarker(mapView: mapView)
         dao.loadOverlays(mapView: mapView, customMarker: customMarker!)
         
-        
+        mapView.delegate = self //for func mapView (touch event function)
     }
     
+    static var coordArrayForLineMode = [CLLocationCoordinate2D]()
+    static var tempMarkerArrayForLineMode = [GMSMarker]()
+    
+    //map touch event handler
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        guard ViewController.circleMode || ViewController.lineMode else { //not a dev mode
+            return
+        }
+        
+        
+        let dao = DAO()
+        
+        
+        if ViewController.circleMode { //dev circle mode is on
+            dao.saveCircle(latitude: coordinate.latitude, longitude: coordinate.longitude, radius: 200, fillColor: "orange", strokeColor: "orange", strokeWidth: 1, category: "people")
+        }
+        
+        
+        if ViewController.lineMode { //dev line mode is on
+            
+            //add a marker where you touched
+            let marker = GMSMarker(position: coordinate)
+            marker.map = mapView
+            
+            ViewController.coordArrayForLineMode.append(coordinate)
+            ViewController.tempMarkerArrayForLineMode.append(marker)
+        }
+    }
+    
+    
     @IBOutlet weak var OptionView: UIView!
+    
+    @IBAction func OptionTitleButton(_ sender: UIButton) {
+        if ViewController.devCount <= 2 {
+            ViewController.devCount += 1
+            
+            if(ViewController.devCount == 3) { //when triple times touch on option lable, activate dev mode
+                showToast(message: "Dev mod ON")
+                DevButton.alpha = 1
+                DevButton2.alpha = 1
+            }
+        } else { //deactivate dev mode when option label is touched 4th times
+            ViewController.devCount = 0
+            showToast(message: "Dev mode OFF")
+            DevButton.alpha = 0
+            DevButton2.alpha = 0
+        }
+    }
+    
+    @IBOutlet weak var DevButton: UIButton!
+    @IBAction func DevButtonHandler(_ sender: UIButton) {
+        ViewController.lineMode = false
+        
+        if ViewController.circleMode {
+            ViewController.circleMode = false
+            showToast(message: "Circle mode OFF")
+        } else {
+            ViewController.circleMode = true
+            showToast(message: "Circle mode ON")
+        }
+    }
+    
+    @IBOutlet weak var DevButton2: UIButton!
+    @IBAction func DevButton2Handler(_ sender: UIButton) {
+        ViewController.circleMode = false
+        
+        if ViewController.lineMode {
+            
+            //split the coordArrayForLineMode to latitudeArr and longitudeArr
+            var latitudeArr = [Double](), longitudeArr = [Double]()
+            for coord in ViewController.coordArrayForLineMode {
+                latitudeArr.append(Double(coord.latitude))
+                longitudeArr.append(Double(coord.longitude))
+            }
+            
+            
+            //send a path infomations to firebase db
+            let dao = DAO()
+            dao.savePath(latitude: latitudeArr, longitude: longitudeArr, strokeColor: "blue", strokeWidth: 10, category: "river")
+            
+            
+            //remove all markers
+            for m in ViewController.tempMarkerArrayForLineMode {
+                m.map = nil
+            }
+            ViewController.tempMarkerArrayForLineMode.removeAll()
+            
+            //remove all elements in coordArray
+            ViewController.coordArrayForLineMode.removeAll()
+            
+            
+            //line mode OFF
+            ViewController.lineMode = false
+            showToast(message: "Added a line\nLine mode OFF")
+        } else {
+            ViewController.lineMode = true
+            showToast(message: "Line mode ON")
+        }
+    }
     
     @IBAction func FilterButton(_ sender: Any) {
         OptionView.alpha = 1.0 //show option view
@@ -91,6 +193,26 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
           self.view.endEditing(true)
     }
+    
+    func showToast(message : String) {
+            let width_variable:CGFloat = 10
+            let toastLabel = UILabel(frame: CGRect(x: width_variable, y: self.view.frame.size.height-100, width: view.frame.size.width-2*width_variable, height: 35))
+            // 뷰가 위치할 위치를 지정해준다. 여기서는 아래로부터 100만큼 떨어져있고, 너비는 양쪽에 10만큼 여백을 가지며, 높이는 35로
+            toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            toastLabel.textColor = UIColor.white
+            toastLabel.textAlignment = .center;
+            toastLabel.font = UIFont(name: "Montserrat-Light", size: 12.0)
+            toastLabel.text = message
+            toastLabel.alpha = 1.0
+            toastLabel.layer.cornerRadius = 10;
+            toastLabel.clipsToBounds  =  true
+            self.view.addSubview(toastLabel)
+            UIView.animate(withDuration: 4.0, delay: 2.0, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0.0
+            }, completion: {(isCompleted) in
+                toastLabel.removeFromSuperview()
+            })
+        }
     
 }
 
