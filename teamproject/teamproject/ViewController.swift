@@ -8,20 +8,31 @@
 
 import UIKit
 import GoogleMaps
+import GooglePlaces
 
 class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDelegate {
     
     var customMarker: CustomMarker? = nil
+    var mapView: GMSMapView!
+    @IBAction func locationTapped(_ sender: Any) {
+        gotoPlaces()
+    }
+    
+    @IBOutlet weak var searchText: UITextField!
     
     static var devCount = 0
     static var circleMode = false
     static var lineMode = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         let camera = GMSCameraPosition.camera(withLatitude: 35.89, longitude: 128.61, zoom: 15.0)
-        let mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+        mapView = GMSMapView.map(withFrame: self.view.frame, camera: camera)
+        
+        // 내 위치 버튼 활성화
+        mapView.isMyLocationEnabled = true
+        mapView.settings.myLocationButton = true
         self.view.addSubview(mapView)
         self.view.sendSubviewToBack(mapView)
         
@@ -33,7 +44,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
         dao.loadOverlays(mapView: mapView, customMarker: customMarker!)
         
         mapView.delegate = self //for func mapView (touch event function)
+        
     }
+    
     
     static var coordArrayForLineMode = [CLLocationCoordinate2D]()
     static var tempMarkerArrayForLineMode = [GMSMarker]()
@@ -214,5 +227,45 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
             })
         }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations location: [CLLocation]) {
+        let location = location.last
+        let camera = GMSCameraPosition.camera(withTarget: location!.coordinate, zoom: 15.0)
+        self.mapView.camera = camera
+        print("\(location!.coordinate.latitude) \(location!.coordinate.longitude)")
+    }
+    
+    func gotoPlaces() {
+        searchText.resignFirstResponder()
+        let acController = GMSAutocompleteViewController()
+        acController.delegate = self
+        present(acController, animated: true, completion: nil)
+    }
+    
 }
 
+extension ViewController: GMSAutocompleteViewControllerDelegate {
+    func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
+        print("Plae name: \(String(describing: place.name))")
+        
+        dismiss(animated:true, completion: nil)
+        
+        self.mapView.clear()
+        self.searchText.text = place.name
+        
+        // 검색한 장소 위치로 카메라 옮기기
+        let cord2D = CLLocationCoordinate2D(latitude: (place.coordinate.latitude), longitude: (place.coordinate.longitude))
+        
+        self.mapView.camera = GMSCameraPosition.camera(withTarget: cord2D, zoom: 15.0)
+        
+    }
+    
+    func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func wasCancelled(_ viewController: GMSAutocompleteViewController) {
+        dismiss(animated:true, completion: nil)
+    }
+    
+
+}
