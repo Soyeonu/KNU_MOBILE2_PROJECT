@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B2FC8AA249985BB008FB307 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2FC8A9249985BB008FB307 /* SettingView.swift */; };
 		9D20FEBC918DD87E0BC96980 /* Pods_teamproject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 909E78483BBEF64D186179E6 /* Pods_teamproject.framework */; };
 		CA627915248FB19300E834DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA627914248FB19300E834DF /* AppDelegate.swift */; };
 		CA627917248FB19300E834DF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA627916248FB19300E834DF /* SceneDelegate.swift */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		0C2524688EE2B9C5B7776C87 /* Pods-teamproject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-teamproject.release.xcconfig"; path = "Target Support Files/Pods-teamproject/Pods-teamproject.release.xcconfig"; sourceTree = "<group>"; };
+		4B2FC8A9249985BB008FB307 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		909E78483BBEF64D186179E6 /* Pods_teamproject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_teamproject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B446FE98F2D43C0630877B36 /* Pods-teamproject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-teamproject.debug.xcconfig"; path = "Target Support Files/Pods-teamproject/Pods-teamproject.debug.xcconfig"; sourceTree = "<group>"; };
 		CA627911248FB19300E834DF /* teamproject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = teamproject.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +95,7 @@
 				CA627916248FB19300E834DF /* SceneDelegate.swift */,
 				CA627918248FB19300E834DF /* ViewController.swift */,
 				CA62791A248FB19300E834DF /* Main.storyboard */,
+				4B2FC8A9249985BB008FB307 /* SettingView.swift */,
 				CA62791D248FB19400E834DF /* Assets.xcassets */,
 				CAE83866249942BA00AB7913 /* gear.png */,
 				CA62791F248FB19400E834DF /* LaunchScreen.storyboard */,
@@ -241,6 +244,7 @@
 				CA627919248FB19300E834DF /* ViewController.swift in Sources */,
 				CA627915248FB19300E834DF /* AppDelegate.swift in Sources */,
 				CA62792D24938D3500E834DF /* CustomMarker.swift in Sources */,
+				4B2FC8AA249985BB008FB307 /* SettingView.swift in Sources */,
 				CA627917248FB19300E834DF /* SceneDelegate.swift in Sources */,
 				CA62792F249601CB00E834DF /* DAO.swift in Sources */,
 			);
