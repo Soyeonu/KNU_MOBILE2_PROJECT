@@ -13,6 +13,8 @@ class CustomMarker {
     
     let mapView: GMSMapView
     
+    static var markerAlpha:CGFloat = 1.0
+    
     var markerDictionary = [String: [Any]]()
     /*
      * markerDictionary = {
@@ -20,6 +22,7 @@ class CustomMarker {
      *  "river": [path1, path2, ...]
      * }
      */
+    var hiddenCategory = [String: Bool]() //false == hidden, true == shown
     
     init(mapView: GMSMapView) {
         self.mapView = mapView
@@ -43,10 +46,10 @@ class CustomMarker {
         
         let circleCenter = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let circ = GMSCircle(position: circleCenter, radius: radius)
-        circ.fillColor = fillColor
-        circ.strokeColor = strokeColor
+        circ.fillColor = fillColor.withAlphaComponent(CustomMarker.markerAlpha)
+        circ.strokeColor = strokeColor.withAlphaComponent(CustomMarker.markerAlpha)
         circ.strokeWidth = strokeWidth
-        circ.map = mapView
+        circ.map = isHiddenCategory(category) ? nil : mapView
         
         append(category: category, wantToAdd: circ)
         	
@@ -66,7 +69,9 @@ class CustomMarker {
         }
         
         let line = GMSPolyline(path: path)
-        line.map = mapView
+        line.strokeWidth = strokeWidth
+        line.strokeColor = strokeColor.withAlphaComponent(CustomMarker.markerAlpha)
+        line.map = isHiddenCategory(category) ? nil : mapView
         
         append(category: category, wantToAdd: line)
         
@@ -111,13 +116,52 @@ class CustomMarker {
         
         markerDictionary.updateValue(arr, forKey: category)
         
-        print(markerDictionary)
+//        print(markerDictionary)
     }
     
-    func hideMarkerByCategory(category: String) {
-        var arr = markerDictionary[category] as! Array<GMSOverlay>
-        for overlay in arr {
-            overlay.map = nil
+    func hideMarkerByCategory(_ category: String) {
+        if let arr = markerDictionary[category] as? Array<GMSOverlay> {
+            for overlay in arr {
+                overlay.map = nil
+            }
+        }
+    }
+    
+    func showMarkerByCategory(_ category: String) {
+        if let arr = markerDictionary[category] as? Array<GMSOverlay> {
+            for overlay in arr {
+                overlay.map = mapView
+            }
+        }
+    }
+    
+    func addHiddenCategory(_ category: String) {
+        hiddenCategory[category] = true
+    }
+    
+    func removeHiddenCategory(_ category: String) {
+        hiddenCategory[category] = false
+    }
+    
+    func isHiddenCategory(_ category: String) -> Bool {
+        return hiddenCategory[category] ?? false //deafult is false(not hidden)
+    }
+    
+    func setAlpha(_ alpha: CGFloat) {
+        CustomMarker.markerAlpha = alpha
+        
+        let categories = Array(markerDictionary.values)
+        for markers in categories {
+            for m in markers {
+                if let m = m as? GMSCircle {
+                    //change to new alpha
+                    m.fillColor = m.fillColor?.withAlphaComponent(alpha)
+                    m.strokeColor = m.strokeColor?.withAlphaComponent(alpha)
+                } else if let m = m as? GMSPolyline {
+                    //change to new alpha (poly line has no fillColor)
+                    m.strokeColor = m.strokeColor.withAlphaComponent(alpha)
+                }
+            }
         }
     }
     

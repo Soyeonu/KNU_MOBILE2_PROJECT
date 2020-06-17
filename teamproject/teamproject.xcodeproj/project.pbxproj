@@ -18,6 +18,7 @@
 		CA6279292492832900E834DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA6279282492832900E834DF /* GoogleService-Info.plist */; };
 		CA62792D24938D3500E834DF /* CustomMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA62792C24938D3500E834DF /* CustomMarker.swift */; };
 		CA62792F249601CB00E834DF /* DAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA62792E249601CB00E834DF /* DAO.swift */; };
+		CAE83867249942BA00AB7913 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = CAE83866249942BA00AB7913 /* gear.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		CA6279282492832900E834DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CA62792C24938D3500E834DF /* CustomMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMarker.swift; sourceTree = "<group>"; };
 		CA62792E249601CB00E834DF /* DAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAO.swift; sourceTree = "<group>"; };
+		CAE83866249942BA00AB7913 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = gear.png; path = Assets.xcassets/gear.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 				CA62791A248FB19300E834DF /* Main.storyboard */,
 				4B2FC8A9249985BB008FB307 /* SettingView.swift */,
 				CA62791D248FB19400E834DF /* Assets.xcassets */,
+				CAE83866249942BA00AB7913 /* gear.png */,
 				CA62791F248FB19400E834DF /* LaunchScreen.storyboard */,
 				CA627922248FB19400E834DF /* Info.plist */,
 				CA62792C24938D3500E834DF /* CustomMarker.swift */,
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA627921248FB19400E834DF /* LaunchScreen.storyboard in Resources */,
+				CAE83867249942BA00AB7913 /* gear.png in Resources */,
 				CA6279292492832900E834DF /* GoogleService-Info.plist in Resources */,
 				CA62791E248FB19400E834DF /* Assets.xcassets in Resources */,
 				CA62791C248FB19300E834DF /* Main.storyboard in Resources */,
