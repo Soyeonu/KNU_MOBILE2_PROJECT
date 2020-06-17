@@ -245,7 +245,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, GMSMapViewDel
 
 extension ViewController: GMSAutocompleteViewControllerDelegate {
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        print("Plae name: \(String(describing: place.name))")
+        print("Place name: \(String(describing: place.name))")
         
         dismiss(animated:true, completion: nil)
         
@@ -256,6 +256,9 @@ extension ViewController: GMSAutocompleteViewControllerDelegate {
         let cord2D = CLLocationCoordinate2D(latitude: (place.coordinate.latitude), longitude: (place.coordinate.longitude))
         
         self.mapView.camera = GMSCameraPosition.camera(withTarget: cord2D, zoom: 15.0)
+        
+        let dao = DAO()
+        dao.drawOverlays(mapView: mapView, customMarker: customMarker!)
         
     }
     
