@@ -40,6 +40,7 @@ class DAO {
     func drawOverlays(mapView: GMSMapView, customMarker: CustomMarker) {
         //remove all circles and lines in map (for when db is changed)
         mapView.clear()
+        customMarker.clearMarkerDictionary()
         
         //draw new circles and lines
         let snapshotValue = DAO.snapshot?.value as? NSDictionary

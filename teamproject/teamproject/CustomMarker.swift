@@ -28,6 +28,10 @@ class CustomMarker {
         self.mapView = mapView
     }
     
+    func clearMarkerDictionary() {
+        markerDictionary.removeAll()
+    }
+    
     func addMarker(latitude: CLLocationDegrees, longitude: CLLocationDegrees, title: String?, description: String?) -> GMSMarker {
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
